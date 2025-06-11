@@ -33,77 +33,64 @@ minikube version
 ```shell
 minikube start
 ```
-
-# Exibe informações sobre o cluster Kubernetes atual
-```shell
-kubectl cluster-info
-```
-
 # Cria a imagem Docker local da aplicação Streamlit
 ```shell
 docker build -t app-compare:v1 .
 ```
-# Carrega a imagem Docker local diretamente no ambiente Minikube
+
+# Execução dos conteineres
 ```shell
-minikube image load app-compare:v1
+docker compose up --build
 ```
+
 # Aplica o manifesto YAML para criar o deployment Kubernetes
 ```shell
 kubectl apply -f k8s/deployment.yaml 
 ```
+
 # Aplica o manifesto YAML para criar o serviço Kubernetes
 ```shell
 kubectl apply -f k8s/service.yaml 
 ```
-# Lista os pods existentes no Kubernetes e seus status
+
+# Aplica o manifesto YAML para criar o deployment Nginx:
+```shell
+kubectl apply -f nginx/nginx-deployment.yaml
+```
+
+# Aplica o manifesto YAML para criar o serviço Nginx:
+```shell
+kubectl apply -f nginx/nginx-service.yaml
+```
+
+
+## - ##
+# Como Usar:
+## - ##
+
+
+# VERIFICAR PODS:
 ```shell
 kubectl get pods
 ```
-# Lista os serviços ativos e mostra seus detalhes (porta, IP)
+
+# VERIFICAR SERVIÇOS:
+
 ```shell
 kubectl get services
 ```
-# Abre automaticamente o serviço da aplicação no navegador usando Minikube
+
+# CRIAR UM NOVO POD:
 ```shell
-minikube service app-compare-service
-```
-# Escala o deployment para rodar com 4 réplicas (pods) simultaneamente
-```shell
-kubectl scale deployment app-compare-deployment --replicas=4
-```
-# Exibe o status atual dos pods após escalar a aplicação
-```shell
-kubectl get pods
+kubectl run meu-pod --image=nginx --restart=Never
 ```
 
-# Deleta manualmente um pod específico para testar recuperação automática (pegue o nome do container a partir do comando anterior)
+# DELETAR POD:
 ```shell
-kubectl delete pod app-compare-deployment-7d75cd987d-wtlcv
+kubectl delete pod meu-pod
 ```
 
-# Lista novamente os pods; o Kubernetes recriará automaticamente o pod deletado
+# ABRIR O NGINX PLEO NAVEGADOR USANDO URL:
 ```shell
-kubectl get pods  
+minikube service nginx-service
 ```
-
-# Exibe informações detalhadas sobre um pod específico
-```shell
-kubectl describe pod app-compare-deployment-7d75cd987d-729tr
-```
-
-# Abre um terminal interativo (bash) dentro de um pod específico
-```shell
-kubectl exec -it ai-streamlit-deployment-7d75cd987d-729tr -- bash
-```
-
-# Desligando o cluster Kubernetes
-```shell
-minikube stop
-```
-
-# Deletando o cluster
-```shell
-minikube delete
-```
-
-
